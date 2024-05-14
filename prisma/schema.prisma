@@ -20,8 +20,8 @@ model SupportTicket {
 
 model User {
     id String @default(cuid()) @id
-    email String? @unique
-    name String?
+    email String @unique
+    name String
     supportTickets SupportTicket[]
 }
 

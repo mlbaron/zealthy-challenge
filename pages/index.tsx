@@ -1,60 +1,132 @@
-import React from "react"
-import { GetStaticProps } from "next"
-import Layout from "../components/Layout"
-import Post, { PostProps } from "../components/Post"
+import React, { useState } from "react"
+import { Notification, TextInput, Space, Textarea, Button, Group, Box } from '@mantine/core';
+import { useForm } from '@mantine/form';
 
-export const getStaticProps: GetStaticProps = async () => {
-  const feed = [
-    {
-      id: "1",
-      title: "Prisma is the perfect ORM for Next.js",
-      content: "[Prisma](https://github.com/prisma/prisma) and Next.js go _great_ together!",
-      published: false,
-      author: {
-        name: "Matt Baron",
-        email: "mlbaron92@gmail.com ",
-      },
+const SupportTicketForm: React.FC = () => {
+  const [showSupportTicketCreatedNotification, setShowSupportTicketCreatedNotification] = useState(false);
+  const [showErrorNotification, setShowErrorNotification] = useState(false);
+
+  const form = useForm({
+    mode: 'uncontrolled',
+    initialValues: {
+      email: '',
+      name: '',
+      description: '',
     },
-  ]
-  return { 
-    props: { feed }, 
-    revalidate: 10 
+
+    validate: {
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+    },
+  });
+
+  const notificationDisplayTime = 2500;
+
+  const handleShowSupportTicketCreatedNotification = () => {
+    setShowSupportTicketCreatedNotification(true);
+
+    // Hide the notification after 3 seconds
+    setTimeout(() => {
+      setShowSupportTicketCreatedNotification(false);
+    }, notificationDisplayTime);
   }
-}
 
-type Props = {
-  feed: PostProps[]
-}
+  const handleShowErrorNotification = () => {
+    setShowErrorNotification(true);
 
-const Blog: React.FC<Props> = (props) => {
+    // Hide the notification after 3 seconds
+    setTimeout(() => {
+      setShowErrorNotification(false);
+    }, notificationDisplayTime);
+  }
+
+  const handleSubmit = async (values: typeof form.values) => {
+    try {
+      const email = values.email;
+      const name = values.name;
+      const description = values.description
+
+      const body = { name, email, description };
+
+      await fetch('/api/support-ticket', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+
+      // Reset the form to its initial state
+      form.reset()
+
+      handleShowSupportTicketCreatedNotification()
+    } catch (error) {
+      // Reset the form to its initial state
+      form.reset()
+
+      handleShowErrorNotification()
+    }
+  };
+
   return (
-    <Layout>
-      <div className="page">
-        <h1>Public Feed</h1>
-        <main>
-          {props.feed.map((post) => (
-            <div key={post.id} className="post">
-              <Post post={post} />
-            </div>
-          ))}
-        </main>
-      </div>
-      <style jsx>{`
-        .post {
-          background: white;
-          transition: box-shadow 0.1s ease-in;
-        }
+    <>
+      <Box mx={50} my="md">
+        <form onSubmit={form.onSubmit(handleSubmit)}>
+          <TextInput
+            withAsterisk
+            label="Email"
+            placeholder="your@email.com"
+            key={form.key('email')}
+            {...form.getInputProps('email')}
+          />
+          <Space h="md" />
 
-        .post:hover {
-          box-shadow: 1px 1px 3px #aaa;
-        }
+          <TextInput
+            withAsterisk
+            label="Name"
+            placeholder="Your Name"
+            key={form.key('name')}
+            {...form.getInputProps('name')}
+          />
 
-        .post + .post {
-          margin-top: 2rem;
-        }
-      `}</style>
-    </Layout>
-  )
+          <Space h="md" />
+
+          <Textarea
+            withAsterisk
+            label="Ticket Issue"
+            description="Enter a summary of the problem you're experiencing"
+            placeholder=" "
+            key={form.key('description')}
+            {...form.getInputProps('description')}
+          />
+
+          <Group justify="flex-end" mt="md">
+            <Button type="submit">Submit</Button>
+          </Group>
+        </form>
+      </Box>
+
+      {
+        showSupportTicketCreatedNotification && (
+          <Notification
+            title="New Ticket Successfully Created"
+            color="green"
+            mx={50}
+          >
+          </Notification>
+        )
+      }
+
+      {
+        showErrorNotification && (
+          <Notification
+            title="Error creating support ticket"
+            color="red"
+            mx={50}
+          >
+            Please try again!
+          </Notification>
+        )
+      }
+    </>
+  );
 }
 
-export default Blog
+export default SupportTicketForm

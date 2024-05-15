@@ -5,7 +5,8 @@ import Post, { PostProps } from '../components/Post';
 import prisma from '../lib/prisma';
 import { Status } from '@prisma/client';
 import { Box, Text, Table, Space } from '@mantine/core';
-import SupportTicketRow, { SupportTicketProps } from '../components/SupportTicketRow';
+import SupportTicketRow, { SupportTicketProps } from '../components/SupportTicketsTable';
+import SupportTicketsTable from '../components/SupportTicketsTable';
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     const supportTickets = await prisma.supportTicket.findMany({
@@ -28,24 +29,7 @@ const SupportTickets: React.FC<Props> = (props) => {
     return (
         <Layout>
             <Box mx={50} my="md">
-                <Text size="xl" fw={700}>Support Tickets</Text>
-                <Space h="md" />
-
-                <Table>
-                    <Table.Thead>
-                        <Table.Tr>
-                            <Table.Th>Reporter's Name</Table.Th>
-                            <Table.Th>Reporter's Email</Table.Th>
-                            <Table.Th>Status</Table.Th>
-                            <Table.Th>Description</Table.Th>
-                        </Table.Tr>
-                    </Table.Thead>
-                    <Table.Tbody>
-                        {props.supportTickets.map((supportTicket) => (
-                            <SupportTicketRow supportTicket={supportTicket} />
-                        ))}
-                    </Table.Tbody>
-                </Table>
+                <SupportTicketsTable supportTickets={props.supportTickets}/>
             </Box>
         </Layout>
     );

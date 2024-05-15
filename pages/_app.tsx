@@ -1,8 +1,12 @@
+import '@mantine/core/styles.css';
 import { AppProps } from "next/app";
+import { MantineProvider } from '@mantine/core';
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
-    <Component {...pageProps} />
+    <MantineProvider>
+        <Component {...pageProps} />
+    </MantineProvider>
   );
 };
 

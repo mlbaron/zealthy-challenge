@@ -14,7 +14,7 @@ const Header: React.FC = () => {
           Submit New Support Ticket
         </a>
       </Link>
-      <Link href="/">
+      <Link href="/ticket-list">
         <a className="bold" data-active={isActive("/ticket-list")}>
           View All Support Tickets
         </a>

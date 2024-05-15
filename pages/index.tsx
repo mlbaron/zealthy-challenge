@@ -58,9 +58,6 @@ const SupportTicketForm: React.FC = () => {
 
       handleShowSupportTicketCreatedNotification()
     } catch (error) {
-      // Reset the form to its initial state
-      form.reset()
-
       handleShowErrorNotification()
     }
   };

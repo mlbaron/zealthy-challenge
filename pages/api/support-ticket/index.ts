@@ -7,7 +7,7 @@ export default async function handle(req, res) {
     const { email, name, description } = req.body;
 
     // Check if the user already exists
-    var currentUser: User
+    var currentUserId: string
 
     const existingUser = await prisma.user.findUnique({
         where: {
@@ -16,7 +16,7 @@ export default async function handle(req, res) {
     });
 
     if (existingUser) {
-        currentUser = existingUser;
+        currentUserId = existingUser.id;
     } else {
         // User does not exist, create a new user
         const newUser = await prisma.user.create({
@@ -26,13 +26,13 @@ export default async function handle(req, res) {
             },
         });
 
-        currentUser = newUser;
+        currentUserId = newUser.id;
     }
 
     const result = await prisma.supportTicket.create({
         data: {
             description: description,
-            userId: currentUser.id
+            userId: currentUserId
         }
     });
 

@@ -1,11 +1,12 @@
 import React, { useState } from "react"
 import { GetServerSideProps } from "next"
 import Layout from "../../components/Layout"
-import { Text, Box, Space, Select, Notification } from '@mantine/core';
+import { Text, Box, Space, Select, Notification, Textarea, Group, Button } from '@mantine/core';
 import { SupportTicketProps } from "../../components/SupportTicketsTable";
 import prisma from "../../lib/prisma";
 import { Status } from "@prisma/client";
 import { stringValueForStatusEnum } from "../../utils";
+import { useForm } from '@mantine/form';
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const supportTicket = await prisma.supportTicket.findUnique({
@@ -44,8 +45,25 @@ type Props = {
 
 const SupportTicket: React.FC<SupportTicketProps> = (props) => {
     const [statusValue, setStatusValue] = useState(() => props.status as string);
+    const [reportersEmailAddress, setReportersEmailAddress] = useState(() => props.user.email);
     const [showStatusChangedSuccessfullyNotification, setShowStatusChangedSuccessfullyNotification] = useState(false);
     const [showErrorNotification, setShowErrorNotification] = useState(false);
+
+    const form = useForm({
+        mode: 'uncontrolled',
+        initialValues: {
+            response: '',
+        }
+    });
+
+    const handleSubmit = async (values: typeof form.values) => {
+        const responseToEmailToReporter = values.response;
+
+        console.log(`Would normally send email to ${reportersEmailAddress} here, with body: ${responseToEmailToReporter}`)
+
+        // Reset the form to its initial state
+        form.reset()
+    };
 
     const handleSelectionChange = async (supportTicketId: string, status: string) => {
         // Return early if the user re-selects the same statuss
@@ -113,6 +131,20 @@ const SupportTicket: React.FC<SupportTicketProps> = (props) => {
                     data={statusSelectionArray()}
                     onChange={(_value) => handleSelectionChange(props.id, _value)}
                 />
+                <Space h="md" />
+
+                <Text size="xl" fw={700}>Email the Reporter</Text>
+                <form onSubmit={form.onSubmit(handleSubmit)}>
+                    <Textarea
+                        description="Type a response to send to the reporter"
+                        placeholder="The text you enter here will be emailed to the reporter"
+                        key={form.key('response')}
+                        {...form.getInputProps('response')}
+                    />
+                    <Group mt="md">
+                        <Button type="submit">Email the reporter</Button>
+                    </Group>
+                </form>
                 <Space h="md" />
 
                 {

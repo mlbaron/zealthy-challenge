@@ -24,7 +24,7 @@ const CreateSupportTicketForm: React.FC = () => {
     const handleShowSupportTicketCreatedNotification = () => {
         setShowSupportTicketCreatedNotification(true);
 
-        // Hide the notification after 3 seconds
+        // Hide the notification after 2.5 seconds
         setTimeout(() => {
             setShowSupportTicketCreatedNotification(false);
         }, notificationDisplayTime);
@@ -33,7 +33,7 @@ const CreateSupportTicketForm: React.FC = () => {
     const handleShowErrorNotification = () => {
         setShowErrorNotification(true);
 
-        // Hide the notification after 3 seconds
+        // Hide the notification after 2.5 seconds
         setTimeout(() => {
             setShowErrorNotification(false);
         }, notificationDisplayTime);
@@ -92,7 +92,7 @@ const CreateSupportTicketForm: React.FC = () => {
                     {...form.getInputProps('description')}
                 />
 
-                <Group justify="flex-end" mt="md">
+                <Group mt="md">
                     <Button type="submit">Submit</Button>
                 </Group>
             </form>
@@ -103,7 +103,8 @@ const CreateSupportTicketForm: React.FC = () => {
                     <Notification
                         title="New Ticket Successfully Created"
                         color="green"
-                        mx={50}
+                        withCloseButton={false}
+                        w={400}
                     >
                     </Notification>
                 )
@@ -114,7 +115,8 @@ const CreateSupportTicketForm: React.FC = () => {
                     <Notification
                         title="Error creating support ticket"
                         color="red"
-                        mx={50}
+                        withCloseButton={false}
+                        w={400}
                     >
                         Please try again!
                     </Notification>

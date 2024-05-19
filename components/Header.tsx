@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Group } from "@mantine/core";
+import { Divider, Group } from "@mantine/core";
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -11,7 +11,7 @@ const Header: React.FC = () => {
   let links = (
     <div className="links">
       <Link href="/">
-        <a className="bold"  data-active={isActive("/")}>
+        <a className="bold" data-active={isActive("/")}>
           Submit New Support Ticket
         </a>
       </Link>
@@ -44,9 +44,12 @@ const Header: React.FC = () => {
   );
 
   return (
-    <Group mx={50} pt={25}>
-      {links}
-    </Group>
+    <>
+      <Group mx={50} pt={25}>
+        {links}
+      </Group>
+      <Divider my="md" />
+    </>
   );
 };
 

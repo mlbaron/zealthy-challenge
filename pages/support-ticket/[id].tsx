@@ -7,6 +7,7 @@ import prisma from "../../lib/prisma";
 import { Status } from "@prisma/client";
 import { stringValueForStatusEnum } from "../../utils";
 import { useForm } from '@mantine/form';
+import SupportTicketResponseForm from "../../components/SupportTicketResponseForm";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const supportTicket = await prisma.supportTicket.findUnique({
@@ -45,25 +46,29 @@ type Props = {
 
 const SupportTicket: React.FC<SupportTicketProps> = (props) => {
     const [statusValue, setStatusValue] = useState(() => props.status as string);
-    const [reportersEmailAddress, setReportersEmailAddress] = useState(() => props.user.email);
     const [showStatusChangedSuccessfullyNotification, setShowStatusChangedSuccessfullyNotification] = useState(false);
     const [showErrorNotification, setShowErrorNotification] = useState(false);
 
-    const form = useForm({
-        mode: 'uncontrolled',
-        initialValues: {
-            response: '',
-        }
-    });
+    const notificationDisplayTime = 2500;
 
-    const handleSubmit = async (values: typeof form.values) => {
-        const responseToEmailToReporter = values.response;
+    const handleShowStatusChangedSuccessfullyNotification = () => {
+        setShowStatusChangedSuccessfullyNotification(true);
 
-        console.log(`Would normally send email to ${reportersEmailAddress} here, with body: ${responseToEmailToReporter}`)
+        // Hide the notification after 2.5 seconds
+        setTimeout(() => {
+            setShowStatusChangedSuccessfullyNotification(false);
+        }, notificationDisplayTime);
+    }
 
-        // Reset the form to its initial state
-        form.reset()
-    };
+    const handleShowErrorNotification = () => {
+        setShowErrorNotification(true);
+
+        // Hide the notification after 2.5 seconds
+        setTimeout(() => {
+            setShowErrorNotification(false);
+        }, notificationDisplayTime);
+    }
+
 
     const handleSelectionChange = async (supportTicketId: string, status: string) => {
         // Return early if the user re-selects the same statuss
@@ -87,26 +92,6 @@ const SupportTicket: React.FC<SupportTicketProps> = (props) => {
             handleShowErrorNotification()
         }
     };
-
-    const notificationDisplayTime = 2500;
-
-    const handleShowStatusChangedSuccessfullyNotification = () => {
-        setShowStatusChangedSuccessfullyNotification(true);
-
-        // Hide the notification after 2.5 seconds
-        setTimeout(() => {
-            setShowStatusChangedSuccessfullyNotification(false);
-        }, notificationDisplayTime);
-    }
-
-    const handleShowErrorNotification = () => {
-        setShowErrorNotification(true);
-
-        // Hide the notification after 2.5 seconds
-        setTimeout(() => {
-            setShowErrorNotification(false);
-        }, notificationDisplayTime);
-    }
 
     return (
         <Layout>
@@ -134,17 +119,7 @@ const SupportTicket: React.FC<SupportTicketProps> = (props) => {
                 <Space h="md" />
 
                 <Text size="xl" fw={700}>Email the Reporter</Text>
-                <form onSubmit={form.onSubmit(handleSubmit)}>
-                    <Textarea
-                        description="Type a response to send to the reporter"
-                        placeholder="The text you enter here will be emailed to the reporter"
-                        key={form.key('response')}
-                        {...form.getInputProps('response')}
-                    />
-                    <Group mt="md">
-                        <Button type="submit">Email the reporter</Button>
-                    </Group>
-                </form>
+                <SupportTicketResponseForm email={props.user.email}/>
                 <Space h="md" />
 
                 {

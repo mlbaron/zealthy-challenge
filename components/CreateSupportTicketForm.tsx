@@ -56,6 +56,9 @@ const CreateSupportTicketForm: React.FC = () => {
             // Reset the form to its initial state
             form.reset()
 
+            // Email the reporter of the ticket that the ticket was created
+            console.log(`Would normally send email to ${email} here, with body: A ticket was created with the following description: ${description}`)
+
             handleShowSupportTicketCreatedNotification()
         } catch (error) {
             handleShowErrorNotification()
@@ -66,6 +69,7 @@ const CreateSupportTicketForm: React.FC = () => {
         <>
             <form onSubmit={form.onSubmit(handleSubmit)}>
                 <TextInput
+                    w={400}
                     withAsterisk
                     label="Email"
                     placeholder="your@email.com"
@@ -75,6 +79,7 @@ const CreateSupportTicketForm: React.FC = () => {
                 <Space h="md" />
 
                 <TextInput
+                    w={400}
                     withAsterisk
                     label="Name"
                     placeholder="Your Name"
@@ -84,6 +89,7 @@ const CreateSupportTicketForm: React.FC = () => {
                 <Space h="md" />
 
                 <Textarea
+                    w={600}
                     withAsterisk
                     label="Issue"
                     description="Enter a summary of the problem you're experiencing"

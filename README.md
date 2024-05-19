@@ -1,3 +1,7 @@
-# Fullstack Authentication Example with Next.js and NextAuth.js
+# Zealthy Take Home Project 
 
-This is the starter project for the fullstack tutorial with Next.js and Prisma. You can find the final version of this project in the [`final`](https://github.com/prisma/blogr-nextjs-prisma/tree/final) branch of this repo.
+In order to run this project, run the following commands in the root directory:
+1. `npm install`
+2. `vercel link` (and answer `Yes` to both questions)
+3. `vercel env pull .env`
+2. `npm run dev` 

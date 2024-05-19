@@ -2,9 +2,8 @@ import React from 'react';
 import { GetServerSideProps } from 'next';
 import Layout from '../components/Layout';
 import prisma from '../lib/prisma';
-import { Status } from '@prisma/client';
-import { Box, Text, Table, Space } from '@mantine/core';
-import SupportTicketRow, { SupportTicketProps } from '../components/SupportTicketsTable';
+import { Box, Text, Space } from '@mantine/core';
+import { SupportTicketProps } from '../components/SupportTicketsTable';
 import SupportTicketsTable from '../components/SupportTicketsTable';
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
@@ -28,7 +27,10 @@ const SupportTickets: React.FC<Props> = (props) => {
     return (
         <Layout>
             <Box mx={50} my="md">
-                <SupportTicketsTable supportTickets={props.supportTickets}/>
+                <Text size="xl" fw={700}>Support Tickets</Text>
+                <Space h="md" />
+
+                <SupportTicketsTable supportTickets={props.supportTickets} />
             </Box>
         </Layout>
     );

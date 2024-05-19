@@ -27,8 +27,8 @@ const SupportTicketsTable: React.FC<Props> = (props) => {
     <Table>
       <Table.Thead>
         <Table.Tr>
-          <Table.Th>Submitter's Name</Table.Th>
-          <Table.Th>Submitter's Email</Table.Th>
+          <Table.Th>Reporter's Name</Table.Th>
+          <Table.Th>Reporter's Email</Table.Th>
           <Table.Th>Status</Table.Th>
           <Table.Th>Description</Table.Th>
         </Table.Tr>

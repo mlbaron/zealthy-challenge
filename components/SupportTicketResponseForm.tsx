@@ -1,7 +1,7 @@
 
 import React, { useState } from "react"
 import { useForm } from '@mantine/form';
-import { Text, Box, Space, Select, Notification, Textarea, Group, Button } from '@mantine/core';
+import { Space, Textarea, Group, Button } from '@mantine/core';
 
 type Props = {
     email: string;

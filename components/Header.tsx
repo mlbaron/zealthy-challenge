@@ -1,16 +1,17 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { Group } from "@mantine/core";
 
 const Header: React.FC = () => {
   const router = useRouter();
   const isActive: (pathname: string) => boolean = (pathname) =>
     router.pathname === pathname;
 
-  let left = (
-    <div className="left">
+  let links = (
+    <div className="links">
       <Link href="/">
-        <a className="bold" data-active={isActive("/")}>
+        <a className="bold"  data-active={isActive("/")}>
           Submit New Support Ticket
         </a>
       </Link>
@@ -26,12 +27,13 @@ const Header: React.FC = () => {
 
         a {
           text-decoration: none;
-          color: #000;
+          color: #0000FF;
           display: inline-block;
         }
 
-        .left a[data-active="true"] {
+        .links a[data-active="true"] {
           color: gray;
+          text-decoration: underline;
         }
 
         a + a {
@@ -41,20 +43,10 @@ const Header: React.FC = () => {
     </div>
   );
 
-  let right = null;
-
   return (
-    <nav>
-      {left}
-      {right}
-      <style jsx>{`
-        nav {
-          display: flex;
-          padding: 2rem;
-          align-items: center;
-        }
-      `}</style>
-    </nav>
+    <Group mx={50} pt={25}>
+      {links}
+    </Group>
   );
 };
 

@@ -1,4 +1,3 @@
-import { User } from '@prisma/client';
 import prisma from '../../../lib/prisma';
 
 // POST /api/support-ticket

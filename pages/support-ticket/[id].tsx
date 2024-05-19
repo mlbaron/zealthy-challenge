@@ -1,12 +1,11 @@
 import React, { useState } from "react"
 import { GetServerSideProps } from "next"
 import Layout from "../../components/Layout"
-import { Text, Box, Space, Select, Notification, Textarea, Group, Button } from '@mantine/core';
+import { Text, Box, Space, Select, Notification } from '@mantine/core';
 import { SupportTicketProps } from "../../components/SupportTicketsTable";
 import prisma from "../../lib/prisma";
 import { Status } from "@prisma/client";
 import { stringValueForStatusEnum } from "../../utils";
-import { useForm } from '@mantine/form';
 import SupportTicketResponseForm from "../../components/SupportTicketResponseForm";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {

@@ -23,7 +23,7 @@ const SupportTicketsTable: React.FC<Props> = (props) => {
   const handleRowClick = (supportTicket) => {
     Router.push("/support-ticket/[id]", `/support-ticket/${supportTicket.id}`)
   };
-  
+
   return (
     <Table>
       <Table.Thead>
@@ -37,7 +37,9 @@ const SupportTicketsTable: React.FC<Props> = (props) => {
 
       <Table.Tbody>
         {props.supportTickets.map((supportTicket) => (
-          <Table.Tr key={supportTicket.id} onClick={() => handleRowClick(supportTicket)}>
+          <Table.Tr
+            key={supportTicket.id} onClick={() => handleRowClick(supportTicket)}
+            style={{ cursor: 'pointer' }}>
             <Table.Td>{supportTicket.user.name}</Table.Td>
             <Table.Td>{supportTicket.user.email}</Table.Td>
             <Table.Td>{stringValueForStatusEnum(supportTicket.status)}</Table.Td>

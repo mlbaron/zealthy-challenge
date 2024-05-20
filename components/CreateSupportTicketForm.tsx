@@ -16,6 +16,8 @@ const CreateSupportTicketForm: React.FC = () => {
 
         validate: {
             email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+            name: (value) => (value.trim().length !== 0 ? null : 'Please enter a name'),
+            description: (value) => (value.trim().length !== 0 ? null : 'Please enter a description')
         },
     });
 

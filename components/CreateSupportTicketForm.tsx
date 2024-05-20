@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { Notification, TextInput, Space, Textarea, Button, Group } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { notificationDisplayTime } from "../utils";
 
 const CreateSupportTicketForm: React.FC = () => {
     const [showSupportTicketCreatedNotification, setShowSupportTicketCreatedNotification] = useState(false);
@@ -20,8 +21,6 @@ const CreateSupportTicketForm: React.FC = () => {
             description: (value) => (value.trim().length !== 0 ? null : 'Please enter a description')
         },
     });
-
-    const notificationDisplayTime = 2500;
 
     const handleShowSupportTicketCreatedNotification = () => {
         setShowSupportTicketCreatedNotification(true);

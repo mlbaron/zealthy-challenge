@@ -8,8 +8,6 @@ type Props = {
 };
 
 const SupportTicketResponseForm: React.FC<Props> = (props) => {
-    const [reportersEmailAddress, setReportersEmailAddress] = useState(() => props.email);
-
     const form = useForm({
         mode: 'uncontrolled',
         initialValues: {
@@ -23,7 +21,7 @@ const SupportTicketResponseForm: React.FC<Props> = (props) => {
         // Reset the form to its initial state
         form.reset()
 
-        console.log(`Would normally send email to ${reportersEmailAddress} here, with body: ${responseToEmailToReporter}`)
+        console.log(`Would normally send email to ${props.email} here, with body: ${responseToEmailToReporter}`)
     };
 
     return (

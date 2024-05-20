@@ -5,7 +5,7 @@ import { Text, Box, Space, Select, Notification } from '@mantine/core';
 import { SupportTicketProps } from "../../components/SupportTicketsTable";
 import prisma from "../../lib/prisma";
 import { Status } from "@prisma/client";
-import { stringValueForStatusEnum } from "../../utils";
+import { notificationDisplayTime, stringValueForStatusEnum } from "../../utils";
 import SupportTicketResponseForm from "../../components/SupportTicketResponseForm";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
@@ -39,16 +39,10 @@ function statusSelectionArray(): StatusSelectionItem[] {
     return selectionData
 }
 
-type Props = {
-    supportTicket: SupportTicketProps;
-};
-
 const SupportTicket: React.FC<SupportTicketProps> = (props) => {
     const [statusValue, setStatusValue] = useState(() => props.status as string);
     const [showStatusChangedSuccessfullyNotification, setShowStatusChangedSuccessfullyNotification] = useState(false);
     const [showErrorNotification, setShowErrorNotification] = useState(false);
-
-    const notificationDisplayTime = 2500;
 
     const handleShowStatusChangedSuccessfullyNotification = () => {
         setShowStatusChangedSuccessfullyNotification(true);

@@ -3,6 +3,7 @@ import Router from "next/router";
 import { Table } from "@mantine/core";
 import { Status } from "@prisma/client";
 import { stringValueForStatusEnum } from "../utils";
+import Link from "next/link";
 
 export type SupportTicketProps = {
   id: string;
@@ -14,15 +15,15 @@ export type SupportTicketProps = {
   } | null;
 };
 
-const handleRowClick = (supportTicket) => {
-  Router.push("/support-ticket/[id]", `/support-ticket/${supportTicket.id}`)
-};
-
 type Props = {
   supportTickets: SupportTicketProps[];
 };
 
 const SupportTicketsTable: React.FC<Props> = (props) => {
+  const handleRowClick = (supportTicket) => {
+    Router.push("/support-ticket/[id]", `/support-ticket/${supportTicket.id}`)
+  };
+  
   return (
     <Table>
       <Table.Thead>
